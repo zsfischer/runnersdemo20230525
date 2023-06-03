@@ -3,7 +3,14 @@ package hu.gde.runnersdemo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -15,13 +22,15 @@ public class RunnerRestController {
     private LapTimeRepository lapTimeRepository;
     private RunnerRepository runnerRepository;
     private final RunnerService runnerService;
+    private final SponsorRepository sponsorRepository;
 
     @Autowired
     public RunnerRestController(RunnerRepository runnerRepository, LapTimeRepository lapTimeRepository,
-                                RunnerService runnerService) {
+                                RunnerService runnerService, SponsorRepository sponsorRepository) {
         this.runnerRepository = runnerRepository;
         this.lapTimeRepository = lapTimeRepository;
         this.runnerService = runnerService;
+        this.sponsorRepository = sponsorRepository;
     }
 
     @GetMapping("/{id}")
@@ -68,6 +77,27 @@ public class RunnerRestController {
     @GetMapping("/highest")
     public ResponseEntity<String> getHighestRunnerName() {
         return ResponseEntity.ok(runnerService.getHighestRunner().getRunnerName());
+    }
+
+    @PutMapping("/{runnerId}/sponsor/{sponsorId}")
+    public ResponseEntity<?> addSponsorToRunner(
+            @PathVariable(name = "runnerId") Long runnerId,
+            @PathVariable(name = "sponsorId") Long sponsorId
+    ) {
+        RunnerEntity runner = runnerRepository.findById(runnerId).orElse(null);
+        SponsorEntity sponsor = sponsorRepository.findById(sponsorId).orElse(null);
+        if (runner == null || sponsor == null) {
+            if(runner == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Runner with ID " + runnerId + " not found");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Sponsor with ID " + sponsorId + " not found");
+            }
+        } else {
+            runner.setSponsor(sponsor);
+            runnerRepository.save(runner);
+        }
+
+        return ResponseEntity.ok().build();
     }
 
     public static class LapTimeRequest {

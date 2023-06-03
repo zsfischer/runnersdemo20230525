@@ -21,7 +21,6 @@ public class RunnerEntity {
     @JsonIgnore
     private SponsorEntity sponsor;
 
-
     public RunnerEntity() {
     }
 
@@ -66,5 +65,15 @@ public class RunnerEntity {
     public void setLaptimes(List<LapTimeEntity> laptimes)
     {
         this.laptimes = laptimes;
+    }
+
+    public SponsorEntity getSponsor()
+    {
+        return sponsor;
+    }
+
+    public void setSponsor(SponsorEntity sponsor)
+    {
+        this.sponsor = sponsor;
     }
 }

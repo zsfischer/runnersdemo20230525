@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "3280806a-0a27-445f-b66a-efc67205ca2f",
+		"_postman_id": "f3e5c9fb-3a51-4bd7-b2b7-92496af6b8b2",
 		"name": "Runners demo",
 		"description": "Runners Demo postman collection",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "9701363"
+		"_exporter_id": "6008482"
 	},
 	"item": [
 		{
@@ -132,6 +132,52 @@
 						"runner",
 						"1",
 						"addlaptime"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getHighestRunnerName",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/runner/highest",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"runner",
+						"highest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addSponsorToRunner",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/runner/1/sponsor/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"runner",
+						"1",
+						"sponsor",
+						"3"
 					]
 				}
 			},
